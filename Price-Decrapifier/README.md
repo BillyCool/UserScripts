@@ -11,6 +11,7 @@ A userscript that automatically rounds and formats prices on various e-commerce 
 * eBay
 * Neokyo
 * OzBargain
+* Skroutz
 
 # Customization 
 Requests for additional site support via issues on the GitHub repository are welcomed. If you prefer to customize the script yourself, you can easily add support for new sites. 
