@@ -56,9 +56,16 @@ function observePagination(paginationSelector, prevButtonSelector, nextButtonSel
 }
 
 // Observe the DOM for pagination elements
-//observePagination('.pagination', '.prev', '.next'); // Example
-observePagination('.s-pagination-strip', '.s-pagination-previous', '.s-pagination-next'); // Amazon
-observePagination('nav.pagination', 'a.pagination__previous', 'a.pagination__next'); // eBay
-observePagination('nav[aria-label="Pagination"]', 'a[rel="prev"]', 'a[rel="next"]'); // GitHub
-observePagination('.pagination', 'a[aria-label="Previous"]', 'a[aria-label="Next"]'); // Neokyo
-observePagination('.pager', '.pager-previous', '.pager-next'); // OzBargain
+const hostname = window.location.hostname;
+
+if (hostname.includes('amazon')) {
+    observePagination('.s-pagination-strip', '.s-pagination-previous', '.s-pagination-next');
+} else if (hostname.includes('ebay')) {
+    observePagination('nav.pagination', 'a.pagination__previous', 'a.pagination__next');
+} else if (hostname.includes('github')) {
+    observePagination('nav[aria-label="Pagination"]', 'a[rel="prev"]', 'a[rel="next"]');
+} else if (hostname.includes('neokyo')) {
+    observePagination('.pagination', 'a[aria-label="Previous"]', 'a[aria-label="Next"]');
+} else if (hostname.includes('ozbargain')) {
+    observePagination('.pager', '.pager-previous', '.pager-next');
+}

@@ -13,8 +13,11 @@ A userscript to navigate through paginated content on various websites using key
 * Neokyo
 * OzBargain
 
-# Customization 
-Happy to take requests for sites via issues. Also feel free to edit the script to change the assigned keyboard keys or add your own sites yourself if you prefer. Add another call to `observePagination`, passing selectors for the pagination, previous button and next button elements, e.g.
+# Customization
+Requests for additional site support via issues on the GitHub repository are welcomed. If you prefer to customize the script yourself, you can easily add support for new sites. 
+
+To do this, add the relevant match attribute and another call to the `observePagination` function, passing the appropriate selectors for the pagination container, previous button, and next button elements. For example:
 ```js
 observePagination('.pagination', '.prev', '.next');
 ```
+This will enable the script to handle pagination on the new site using the specified selectors.
