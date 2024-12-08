@@ -1,5 +1,5 @@
 # Keyboard Pagination
-A script to navigate pagination using keyboard left and right arrows.
+A userscript to navigate through paginated content on various websites using keyboard arrow keys.
 
 # How to
 1. Install the ViolentMonkey (or similar) browser extension ([Firefox](https://addons.mozilla.org/en-US/firefox/addon/violentmonkey/), [Chrome](https://chromewebstore.google.com/detail/violentmonkey/jinjaccalgkegednnccohejagnlnfdag), [Edge](https://microsoftedge.microsoft.com/addons/detail/violentmonkey/eeagobfjdenkkddmbclomhiblgggliao))

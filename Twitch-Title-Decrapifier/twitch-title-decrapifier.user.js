@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name        Twitch Title Decrapifier
-// @description A script to decrapify Twitch stream titles
+// @description A userscript that cleans up Twitch stream titles by removing unwanted characters and keywords, making them more readable
 // @author      BillyCool
 // @namespace   BillyCool
-// @version     1.0
+// @version     1.1
 // @match       https://www.twitch.tv/*
+// @require     https://gist.githubusercontent.com/BillyCool/f3655a94477908127525232d85be2ae5/raw/
 // @homepageURL https://github.com/BillyCool/UserScripts/tree/master/Twitch-Title-Decrapifier
 // @downloadURL https://github.com/BillyCool/UserScripts/raw/master/Twitch-Title-Decrapifier/twitch-title-decrapifier.user.js
 // @copyright   GPL-3.0-or-later
@@ -21,32 +22,19 @@ String.prototype.toProperCase = function () {
     });
 };
 
-// The MutationObserver callback function
-function handleMutation(mutationsList) {
-    const selector = 'a[data-a-target="preview-card-channel-link"] h3, .channel-info-content h2[data-a-target="stream-title"], .online-side-nav-channel-tooltip__body > p';
-    mutationsList.forEach((mutation) => {
-        const matches = [mutation.target, ...mutation.target.querySelectorAll(selector)].filter(el => el.matches(selector));
-        matches.forEach(match => {
-            const newTitle = match.textContent.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g, ' ')
-                .split(' ')
-                .filter(x => !prefixesToExclude.some(prefix => x.toLowerCase().startsWith(prefix)) && !keywordsToExclude.some(keyword => x.toLowerCase().includes(keyword)))
-                .join(' ')
-                .trim()
-                .toProperCase();
+// Function to decrapify Twitch stream titles
+function decrapifyTwitchTitles(element) {
+    const newTitle = element.textContent.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g, ' ')
+        .split(' ')
+        .filter(x => !prefixesToExclude.some(prefix => x.toLowerCase().startsWith(prefix)) && !keywordsToExclude.some(keyword => x.toLowerCase().includes(keyword)))
+        .join(' ')
+        .trim()
+        .toProperCase();
 
-            if (match.textContent !== newTitle) {
-                match.textContent = newTitle;
-            }
-        });
-    });
+    if (element.textContent !== newTitle) {
+        element.textContent = newTitle;
+    }
 }
 
-// Create a MutationObserver instance with the callback function
-const observer = new MutationObserver(handleMutation);
-
-// Start observing the entire document and all mutations
-observer.observe(document.documentElement, {
-    attributes: true,
-    childList: true,
-    subtree: true,
-});
+// Observe the DOM for the Twitch stream title elements
+onElementReady(['a[data-a-target="preview-card-channel-link"] h3', '.channel-info-content h2[data-a-target="stream-title"]', '.online-side-nav-channel-tooltip__body > p'], false, false, decrapifyTwitchTitles);

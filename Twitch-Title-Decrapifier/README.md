@@ -1,5 +1,5 @@
 # Twitch Title Decrapifier
-A script to decrapify Twitch stream titles.
+A userscript that cleans up Twitch stream titles by removing unwanted characters and keywords, making them more readable.
 
 # How to
 1. Install the ViolentMonkey (or similar) browser extension ([Firefox](https://addons.mozilla.org/en-US/firefox/addon/violentmonkey/), [Chrome](https://chromewebstore.google.com/detail/violentmonkey/jinjaccalgkegednnccohejagnlnfdag), [Edge](https://microsoftedge.microsoft.com/addons/detail/violentmonkey/eeagobfjdenkkddmbclomhiblgggliao))
