@@ -3,7 +3,7 @@
 // @description A userscript that cleans up Twitch stream titles by removing unwanted characters and keywords, making them more readable
 // @author      BillyCool
 // @namespace   BillyCool
-// @version     1.1
+// @version     1.2
 // @match       https://www.twitch.tv/*
 // @require     https://gist.githubusercontent.com/BillyCool/f3655a94477908127525232d85be2ae5/raw/
 // @homepageURL https://github.com/BillyCool/UserScripts/tree/master/Twitch-Title-Decrapifier
@@ -14,22 +14,20 @@
 // ==/UserScript==
 
 const prefixesToExclude = ["!", "#", "|", "-", "http"];
-const keywordsToExclude = ["giveaway", "subathon", "click", "drops"];
+const keywordsToExclude = ["giveaway", "subathon", "click", "drops", "subtember", "discount", "donothon", "onlyfangs"];
 
-String.prototype.toProperCase = function () {
-    return this.replace(/(\p{L}|\d)(\p{L}*)/gu, (txt, firstChar, rest) => {
-        return firstChar.toUpperCase() + rest.toLowerCase();
-    });
+String.prototype.toTitleCase = function () {
+    return this.charAt(0).toUpperCase() + this.slice(1).toLowerCase();
 };
 
 // Function to decrapify Twitch stream titles
 function decrapifyTwitchTitles(element) {
-    const newTitle = element.textContent.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g, ' ')
+    const newTitle = element.textContent.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF]|\uFE0F)/g, ' ')
         .split(' ')
-        .filter(x => !prefixesToExclude.some(prefix => x.toLowerCase().startsWith(prefix)) && !keywordsToExclude.some(keyword => x.toLowerCase().includes(keyword)))
-        .join(' ')
-        .trim()
-        .toProperCase();
+        .map(x => x.trim())
+        .filter(x => x !== '' && !prefixesToExclude.some(prefix => x.toLowerCase().startsWith(prefix)) && !keywordsToExclude.some(keyword => x.toLowerCase().includes(keyword)))
+        .map(x => x.toTitleCase())
+        .join(' ');
 
     if (element.textContent !== newTitle) {
         element.textContent = newTitle;
