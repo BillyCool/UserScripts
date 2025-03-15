@@ -3,7 +3,7 @@
 // @description A userscript to navigate through paginated content on various websites using keyboard arrow keys
 // @author      BillyCool
 // @namespace   BillyCool
-// @version     1.1
+// @version     1.2
 // @match       *://*.amazon.*/*
 // @match       *://*.ebay.*/*
 // @match       *://*.github.com/*
@@ -55,17 +55,49 @@ function observePagination(paginationSelector, prevButtonSelector, nextButtonSel
     onElementReady(paginationSelector, runOnce, findOnce, () => document.addEventListener('keydown', (event) => handleKeydown(event, prevButtonSelector, nextButtonSelector)));
 }
 
-// Observe the DOM for pagination elements
-const hostname = window.location.hostname;
+// Configuration object
+const paginationConfig = [
+    {
+        hostname: 'amazon',
+        paginationSelector: '.s-pagination-strip',
+        prevButtonSelector: '.s-pagination-previous',
+        nextButtonSelector: '.s-pagination-next'
+    },
+    {
+        hostname: 'ebay',
+        paginationSelector: 'nav.pagination',
+        prevButtonSelector: 'a.pagination__previous',
+        nextButtonSelector: 'a.pagination__next'
+    },
+    {
+        hostname: 'github',
+        paginationSelector: 'nav[aria-label="Pagination"]',
+        prevButtonSelector: 'a[rel="prev"]',
+        nextButtonSelector: 'a[rel="next"]'
+    },
+    {
+        hostname: 'neokyo',
+        paginationSelector: '.pagination',
+        prevButtonSelector: 'a[aria-label="Previous"]',
+        nextButtonSelector: 'a[aria-label="Next"]'
+    },
+    {
+        hostname: 'ozbargain',
+        paginationSelector: '.pager',
+        prevButtonSelector: '.pager-previous',
+        nextButtonSelector: '.pager-next'
+    }
+];
 
-if (hostname.includes('amazon')) {
-    observePagination('.s-pagination-strip', '.s-pagination-previous', '.s-pagination-next');
-} else if (hostname.includes('ebay')) {
-    observePagination('nav.pagination', 'a.pagination__previous', 'a.pagination__next');
-} else if (hostname.includes('github')) {
-    observePagination('nav[aria-label="Pagination"]', 'a[rel="prev"]', 'a[rel="next"]');
-} else if (hostname.includes('neokyo')) {
-    observePagination('.pagination', 'a[aria-label="Previous"]', 'a[aria-label="Next"]');
-} else if (hostname.includes('ozbargain')) {
-    observePagination('.pager', '.pager-previous', '.pager-next');
+// Get the current hostname
+const currentHostname = window.location.hostname;
+
+// Find the matching configuration
+const config = paginationConfig.find(config => currentHostname.includes(config.hostname));
+
+// Observe the DOM for pagination elements
+if (config) {
+    observePagination(config.paginationSelector, config.prevButtonSelector, config.nextButtonSelector);
+} else {
+    writeDebugLog('No matching configuration found for hostname:', currentHostname);
 }
