@@ -3,7 +3,7 @@
 // @description A userscript that cleans up Twitch stream titles by removing unwanted characters and keywords, making them more readable
 // @author      BillyCool
 // @namespace   BillyCool
-// @version     1.4
+// @version     1.5
 // @match       https://www.twitch.tv/*
 // @require     https://gist.githubusercontent.com/BillyCool/f3655a94477908127525232d85be2ae5/raw/
 // @homepageURL https://github.com/BillyCool/UserScripts/tree/master/Twitch-Title-Decrapifier
@@ -35,4 +35,4 @@ function decrapifyTwitchTitles(element) {
 }
 
 // Observe the DOM for the Twitch stream title elements
-onElementReady(['a[data-a-target="preview-card-channel-link"] h3', '.channel-info-content p[data-a-target="stream-title"]', '.online-side-nav-channel-tooltip__body > p', '.side-nav-guest-star-tooltip__body > p'], false, false, decrapifyTwitchTitles);
+onElementReady(['a[data-a-target="preview-card-channel-link"] h4', '.channel-info-content p[data-a-target="stream-title"]', '.online-side-nav-channel-tooltip__body > p', '.side-nav-guest-star-tooltip__body > p'], false, false, decrapifyTwitchTitles);
